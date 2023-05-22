@@ -1,9 +1,11 @@
 package com.savely;
 
 import com.savely.exception.IncorrectIndexException;
+import com.savely.exception.StringIsNullException;
 import com.savely.exception.StringNotFoundException;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 
 public class StringListImpl implements StringList {
@@ -16,7 +18,14 @@ public class StringListImpl implements StringList {
         arr = new String[INITIAL_CAPACITY];
     }
 
+    private void checkString(String item) {
+        if (Objects.isNull(item)) {
+            throw new StringIsNullException();
+        }
+    }
+
     public String add(String item) {
+        checkString(item);
         if (size == arr.length) {
             String[] newArr = new String[arr.length * 2];
             System.arraycopy(arr, 0, newArr, 0, arr.length);
@@ -27,6 +36,7 @@ public class StringListImpl implements StringList {
     }
 
     public String add(int index, String item) {
+        checkString(item);
         if (index < 0 || index >= size) {
             throw new IncorrectIndexException();
         }
@@ -43,6 +53,7 @@ public class StringListImpl implements StringList {
     }
 
     public String set(int index, String item) {
+        checkString(item);
         if (index < 0 || index >= size) {
             throw new IncorrectIndexException();
         }
@@ -51,6 +62,7 @@ public class StringListImpl implements StringList {
     }
 
     public String remove(String item) {
+        checkString(item);
         for (int i = 0; i < size; i++) {
             if (arr[i].equals(item)) {
                 String res = arr[i];
@@ -77,6 +89,7 @@ public class StringListImpl implements StringList {
     }
 
     public boolean contains(String item) {
+        checkString(item);
         for (String s : arr) {
             if (s.equals(item)) {
                 return true;
@@ -86,6 +99,7 @@ public class StringListImpl implements StringList {
     }
 
     public int indexOf(String item) {
+        checkString(item);
         for (int i = 0; i < size; i++) {
             if (arr[i].equals(item)) {
                 return i;
@@ -95,6 +109,7 @@ public class StringListImpl implements StringList {
     }
 
     public int lastIndexOf(String item) {
+        checkString(item);
         for (int i = size - 1; i >= 0; i--) {
             if (arr[i].equals(item)) {
                 return size - 1 - i;
