@@ -141,9 +141,4 @@ public class StringListImpl implements StringList {
         return Arrays.copyOf(arr, arr.length);
     }
 
-//    @Override
-//    public String toString() {
-//        return "StringListImpl{" + Arrays.toString(arr) + '}';
-//    }
-
 }
