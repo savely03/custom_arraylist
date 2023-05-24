@@ -1,6 +1,7 @@
 package com.savely;
 
 import com.savely.exception.IncorrectIndexException;
+import com.savely.exception.StringIsNullException;
 import com.savely.exception.StringNotFoundException;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +32,25 @@ class StringListImplTest {
     }
 
     @Test
+    void addTestStringIsNull() {
+        assertThatExceptionOfType(StringIsNullException.class).isThrownBy(
+                () -> out.add(NULL_STRING)
+        );
+    }
+
+
+    @Test
     void addByIndexTest() {
+        out.add(NEW_STRING);
+        out.add(NEW_STRING);
+        out.add(NEW_STRING);
+
+        int initialSize = out.size();
+        assertThat(out.add(1, NEW_STRING)).isEqualTo(NEW_STRING);
+        assertThat(out.size()).isEqualTo(initialSize + 1);
+    }
+    @Test
+    void addByIndexWhenArrayIsFullTest() {
         out.add(NEW_STRING);
 
         int initialSize = out.size();
@@ -128,9 +147,9 @@ class StringListImplTest {
         out.add(CHANGE_STRING);
         out.add(NEW_STRING);
 
-        assertThat(out.lastIndexOf(NEW_STRING)).isZero();
+        assertThat(out.lastIndexOf(NEW_STRING)).isOne();
         out.remove(CHANGE_STRING);
-        assertThat(out.indexOf(CHANGE_STRING)).isEqualTo(-1);
+        assertThat(out.lastIndexOf(CHANGE_STRING)).isEqualTo(-1);
     }
 
 
