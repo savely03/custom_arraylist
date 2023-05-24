@@ -147,30 +147,10 @@ public class StringListImpl implements StringList {
         return Arrays.copyOf(arr, size);
     }
 
-//    @Override
-//    public String toString() {
-//        return "StringListImpl{" +
-//                "arr=" + Arrays.toString(arr) +
-//                '}';
-//    }
-//
-//    public static void main(String[] args) {
-//        StringListImpl list = new StringListImpl();
-//        list.add("a");
-//        list.add("b");
-//        list.remove("a");
-//        System.out.println(list);
-//        list.add("c");
-//        list.add("c");
-//        list.add("a");
-//
-//        StringListImpl list1 = new StringListImpl();
-//        list1.add("a");
-//        list1.add("b");
-//        list1.add("c");
-//        list1.add("c");
-//        System.out.println(list.equals(list1));
-//        System.out.println(list);
-//    }
-
+    @Override
+    public String toString() {
+        return "StringListImpl{" +
+                "arr=" + Arrays.toString(toArray()) +
+                '}';
+    }
 }
