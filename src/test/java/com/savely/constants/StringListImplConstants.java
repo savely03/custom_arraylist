@@ -6,7 +6,4 @@ public class StringListImplConstants {
 
     public static final String NULL_STRING = null;
     public static final int NEGATIVE_INDEX = -1;
-
-
-
 }

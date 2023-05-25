@@ -1,5 +1,6 @@
 package com.savely;
 
+import com.savely.bean.BinarySearch;
 import com.savely.exception.IncorrectIndexException;
 import com.savely.exception.ItemIsNullException;
 import com.savely.exception.ItemNotFoundException;
@@ -7,18 +8,17 @@ import com.savely.exception.ItemNotFoundException;
 import java.util.Arrays;
 import java.util.Objects;
 
+public class IntegerListImpl implements IntegerList {
 
-public class StringListImpl implements StringList {
-
-    private String[] arr;
+    private Integer[] arr;
     private int size;
     private static final int INITIAL_CAPACITY = 1;
 
-    public StringListImpl() {
-        arr = new String[INITIAL_CAPACITY];
+    public IntegerListImpl() {
+        arr = new Integer[INITIAL_CAPACITY];
     }
 
-    private void checkString(String item) {
+    private void checkItem(Integer item) {
         if (Objects.isNull(item)) {
             throw new ItemIsNullException();
         }
@@ -30,9 +30,9 @@ public class StringListImpl implements StringList {
         }
     }
 
-
-    public String add(String item) {
-        checkString(item);
+    @Override
+    public Integer add(Integer item) {
+        checkItem(item);
 
         if (size == arr.length) {
             arr = Arrays.copyOf(arr, size * 2);
@@ -42,12 +42,13 @@ public class StringListImpl implements StringList {
         return item;
     }
 
-    public String add(int index, String item) {
-        checkString(item);
+    @Override
+    public Integer add(int index, Integer item) {
+        checkItem(item);
         checkIndex(index);
 
         if (size == arr.length) {
-            String[] newArr = new String[size * 2];
+            Integer[] newArr = new Integer[size * 2];
             System.arraycopy(arr, 0, newArr, 0, index);
             newArr[index] = item;
             System.arraycopy(arr, index, newArr, index + 1, size - index);
@@ -61,15 +62,17 @@ public class StringListImpl implements StringList {
         return item;
     }
 
-    public String set(int index, String item) {
-        checkString(item);
+    @Override
+    public Integer set(int index, Integer item) {
+        checkItem(item);
         checkIndex(index);
         arr[index] = item;
         return item;
     }
 
-    public String remove(String item) {
-        checkString(item);
+    @Override
+    public Integer remove(Integer item) {
+        checkItem(item);
         int index = indexOf(item);
 
         if (index == -1) {
@@ -79,11 +82,12 @@ public class StringListImpl implements StringList {
         return remove(index);
     }
 
-    public String remove(int index) {
+    @Override
+    public Integer remove(int index) {
         checkIndex(index);
 
 
-        String res = arr[index];
+        Integer res = arr[index];
 
         if (index + 1 != size) {
             System.arraycopy(arr, index + 1, arr, index, size - index - 1);
@@ -94,13 +98,18 @@ public class StringListImpl implements StringList {
         return res;
     }
 
-    public boolean contains(String item) {
-        checkString(item);
-        return indexOf(item) != -1;
+    @Override
+    public boolean contains(Integer item) {
+        checkItem(item);
+        BinarySearch binarySearch = new BinarySearch();
+        Integer[] arrCopy = toArray();
+        binarySearch.sort(arrCopy);
+        return binarySearch.binarySearch(arrCopy, item) != -1;
     }
 
-    public int indexOf(String item) {
-        checkString(item);
+    @Override
+    public int indexOf(Integer item) {
+        checkItem(item);
         for (int i = 0; i < size; i++) {
             if (arr[i].equals(item)) {
                 return i;
@@ -109,8 +118,9 @@ public class StringListImpl implements StringList {
         return -1;
     }
 
-    public int lastIndexOf(String item) {
-        checkString(item);
+    @Override
+    public int lastIndexOf(Integer item) {
+        checkItem(item);
         for (int i = size - 1; i >= 0; i--) {
             if (arr[i].equals(item)) {
                 return i;
@@ -119,29 +129,35 @@ public class StringListImpl implements StringList {
         return -1;
     }
 
-    public String get(int index) {
+    @Override
+    public Integer get(int index) {
         checkIndex(index);
         return arr[index];
     }
 
-    public boolean equals(StringList otherList) {
+    @Override
+    public boolean equals(IntegerList otherList) {
         return Arrays.equals(toArray(), otherList.toArray());
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public void clear() {
-        arr = new String[INITIAL_CAPACITY];
+        arr = new Integer[INITIAL_CAPACITY];
         size = 0;
     }
 
-    public String[] toArray() {
+    @Override
+    public Integer[] toArray() {
         return Arrays.copyOf(arr, size);
     }
 

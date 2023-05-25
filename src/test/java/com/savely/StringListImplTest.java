@@ -1,8 +1,8 @@
 package com.savely;
 
 import com.savely.exception.IncorrectIndexException;
-import com.savely.exception.StringIsNullException;
-import com.savely.exception.StringNotFoundException;
+import com.savely.exception.ItemIsNullException;
+import com.savely.exception.ItemNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import static com.savely.constants.StringListImplConstants.*;
@@ -33,7 +33,7 @@ class StringListImplTest {
 
     @Test
     void addTestStringIsNull() {
-        assertThatExceptionOfType(StringIsNullException.class).isThrownBy(
+        assertThatExceptionOfType(ItemIsNullException.class).isThrownBy(
                 () -> out.add(NULL_STRING)
         );
     }
@@ -99,7 +99,7 @@ class StringListImplTest {
 
     @Test
     void removeWhenStringIsNotFoundTest() {
-        assertThatExceptionOfType(StringNotFoundException.class).isThrownBy(
+        assertThatExceptionOfType(ItemNotFoundException.class).isThrownBy(
                 () -> out.remove(NEW_STRING)
         );
     }
