@@ -1,27 +1,52 @@
 package com.savely.bean;
 
-public class BinarySearch {
+public class BinarySearch<T> {
+    private void swapElements(T[] arr, int left, int right) {
+        T temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
+    }
 
-    public void sort(Integer[] arr) {
-        for (int i = 1; i < arr.length; i++) {
-            int temp = arr[i];
-            int j = i;
-            while (j > 0 && arr[j - 1] >= temp) {
-                arr[j] = arr[j - 1];
-                j--;
+    private int partition(T[] arr, int begin, int end) {
+        T pivot = arr[end];
+        int i = (begin - 1);
+
+        for (int j = begin; j < end; j++) {
+            if (pivot.getClass() == Integer.class) {
+                if ((Integer) arr[j] <= (Integer) pivot) {
+                    i++;
+                    swapElements(arr, i, j);
+                }
+            } else {
+                throw new IllegalArgumentException();
             }
-            arr[j] = temp;
+        }
+
+        swapElements(arr, i + 1, end);
+        return i + 1;
+    }
+
+    public void sort(T[] arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            sort(arr, begin, partitionIndex - 1);
+            sort(arr, partitionIndex + 1, end);
         }
     }
 
-    public int binarySearch(Integer[] arr, int item) {
+    public int binarySearch(T[] arr, T item) {
+        if (item.getClass() != Integer.class) {
+            throw new IllegalArgumentException();
+        }
+
         int l = 0;
         int r = arr.length - 1;
         while (l <= r) {
             int mid = (l + r) / 2;
-            if (item > arr[mid]) {
+            if ((Integer) item > (Integer) arr[mid]) {
                 l = mid + 1;
-            } else if (item < arr[mid]) {
+            } else if ((Integer) item < (Integer) arr[mid]) {
                 r = mid - 1;
             } else {
                 return mid;

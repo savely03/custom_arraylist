@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static com.savely.constants.IntegerListImplConstants.*;
+import static com.savely.constants.CustomListImplConstants.*;
 import static org.assertj.core.api.Assertions.*;
 
-class IntegerListImplTest {
+class CustomListImplTest {
 
-    private final IntegerListImpl out = new IntegerListImpl();
+    private final CustomList<Integer> out = new CustomListImpl<>();
     private final Random random = new Random();
 
     @BeforeEach
@@ -50,6 +50,22 @@ class IntegerListImplTest {
         assertThat(out.get(ind)).isEqualTo(NUMBER);
         assertThat(out.get(ind + 1)).isEqualTo(initialNumber);
         assertThat(out.size()).isEqualTo(initialSize + 1);
+    }
+
+    @Test
+    void addByIndexWhenArrayIsFullTest() {
+        CustomList<Integer> outCopy = new CustomListImpl<>();
+        outCopy.add(NUMBER);
+        int initialSize = outCopy.size();
+        int ind = random.nextInt(initialSize);
+        int initialNumber = outCopy.get(ind);
+
+
+        assertThat(outCopy.add(ind, NUMBER)).isEqualTo(NUMBER);
+        assertThat(outCopy.get(ind)).isEqualTo(NUMBER);
+        assertThat(outCopy.get(ind + 1)).isEqualTo(initialNumber);
+        assertThat(outCopy.size()).isEqualTo(initialSize + 1);
+
     }
 
     @Test
@@ -114,7 +130,11 @@ class IntegerListImplTest {
     @Test
     void lastIndexOfTest() {
         out.add(NUMBER);
+
         assertThat(out.lastIndexOf(NUMBER)).isEqualTo(out.size() - 1);
+
+        assertThat(out.lastIndexOf(7)).isEqualTo(-1);
+
     }
 
     @Test
@@ -124,7 +144,7 @@ class IntegerListImplTest {
 
     @Test
     void equalsTest() {
-        IntegerList copyOut = new IntegerListImpl();
+        CustomList<Integer> copyOut = new CustomListImpl<>();
 
         for (int i = 1; i <= 5; i++) {
             copyOut.add(i);

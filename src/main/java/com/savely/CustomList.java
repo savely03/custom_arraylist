@@ -1,10 +1,10 @@
 package com.savely;
 
-public interface IntegerList {
+public interface CustomList<T> {
     // Добавление элемента.
     // Вернуть добавленный элемент
     // в качестве результата выполнения.
-    Integer add(Integer item);
+    T add(T item);
 
     // Добавление элемента
     // на определенную позицию списка.
@@ -13,7 +13,7 @@ public interface IntegerList {
     // выбросить исключение.
     // Вернуть добавленный элемент
     // в качестве результата выполнения.
-    Integer add(int index, Integer item);
+    T add(int index, T item);
 
     // Установить элемент
     // на определенную позицию,
@@ -22,44 +22,44 @@ public interface IntegerList {
     // если индекс больше
     // фактического количества элементов
     // или выходит за пределы массива.
-    Integer set(int index, Integer item);
+    T set(int index, T item);
 
     // Удаление элемента.
     // Вернуть удаленный элемент
     // или исключение, если подобный
     // элемент отсутствует в списке.
-    Integer remove(Integer item);
+    T remove(T item);
 
     // Удаление элемента по индексу.
     // Вернуть удаленный элемент
     // или исключение, если подобный
     // элемент отсутствует в списке.
-    Integer remove(int index);
+    T remove(int index);
 
     // Проверка на существование элемента.
     // Вернуть true/false;
-    boolean contains(Integer item);
+    boolean contains(T item);
 
     // Поиск элемента.
     // Вернуть индекс элемента
     // или -1 в случае отсутствия.
-    int indexOf(Integer item);
+    int indexOf(T item);
 
     // Поиск элемента с конца.
     // Вернуть индекс элемента
     // или -1 в случае отсутствия.
-    int lastIndexOf(Integer item);
+    int lastIndexOf(T item);
 
     // Получить элемент по индексу.
     // Вернуть элемент или исключение,
     // если выходит за рамки фактического
     // количества элементов.
-    Integer get(int index);
+    T get(int index);
 
     // Сравнить текущий список с другим.
     // Вернуть true/false или исключение,
     // если передан null.
-    boolean equals(IntegerList otherList);
+    boolean equals(CustomList<T> otherList);
 
     // Вернуть фактическое количество элементов.
     int size();
@@ -75,5 +75,5 @@ public interface IntegerList {
     // Создать новый массив
     // из строк в списке
     // и вернуть его.
-    Integer[] toArray();
+    Object[] toArray();
 }

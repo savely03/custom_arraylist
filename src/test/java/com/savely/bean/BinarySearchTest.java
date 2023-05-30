@@ -8,13 +8,22 @@ import static org.assertj.core.api.Assertions.*;
 class BinarySearchTest {
 
     private final Integer[] sortedArr = {1, 2, 3, 4, 5};
-    private final BinarySearch binarySearch = new BinarySearch();
+    private final BinarySearch<Integer> binarySearch = new BinarySearch<>();
 
     @Test
     void sortTest() {
         Integer[] arr = {5, 4, 1, 3, 2};
-        binarySearch.sort(arr);
+        binarySearch.sort(arr, 0, arr.length - 1);
         assertThat(arr).isEqualTo(sortedArr);
+    }
+
+    @Test
+    void sortWhenIncorrectTypeTest() {
+        String[] arr = {"a", "b"};
+        BinarySearch<String> stringBinarySearch = new BinarySearch<>();
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(
+                () -> stringBinarySearch.sort(arr, 0, arr.length - 1)
+        );
     }
 
     @Test

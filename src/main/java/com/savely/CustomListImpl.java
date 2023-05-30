@@ -8,17 +8,17 @@ import com.savely.exception.ItemNotFoundException;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class IntegerListImpl implements IntegerList {
+public class CustomListImpl<T> implements CustomList<T> {
 
-    private Integer[] arr;
+    private Object[] arr;
     private int size;
     private static final int INITIAL_CAPACITY = 1;
 
-    public IntegerListImpl() {
-        arr = new Integer[INITIAL_CAPACITY];
+    public CustomListImpl() {
+        arr = new Object[INITIAL_CAPACITY];
     }
 
-    private void checkItem(Integer item) {
+    private void checkItem(T item) {
         if (Objects.isNull(item)) {
             throw new ItemIsNullException();
         }
@@ -30,12 +30,17 @@ public class IntegerListImpl implements IntegerList {
         }
     }
 
+    private Object[] grow() {
+        return Arrays.copyOf(arr, size * 2);
+    }
+
+
     @Override
-    public Integer add(Integer item) {
+    public T add(T item) {
         checkItem(item);
 
         if (size == arr.length) {
-            arr = Arrays.copyOf(arr, size * 2);
+            arr = grow();
         }
 
         arr[size++] = item;
@@ -43,12 +48,12 @@ public class IntegerListImpl implements IntegerList {
     }
 
     @Override
-    public Integer add(int index, Integer item) {
+    public T add(int index, T item) {
         checkItem(item);
         checkIndex(index);
 
         if (size == arr.length) {
-            Integer[] newArr = new Integer[size * 2];
+            Object[] newArr = grow();
             System.arraycopy(arr, 0, newArr, 0, index);
             newArr[index] = item;
             System.arraycopy(arr, index, newArr, index + 1, size - index);
@@ -63,7 +68,7 @@ public class IntegerListImpl implements IntegerList {
     }
 
     @Override
-    public Integer set(int index, Integer item) {
+    public T set(int index, T item) {
         checkItem(item);
         checkIndex(index);
         arr[index] = item;
@@ -71,7 +76,7 @@ public class IntegerListImpl implements IntegerList {
     }
 
     @Override
-    public Integer remove(Integer item) {
+    public T remove(T item) {
         checkItem(item);
         int index = indexOf(item);
 
@@ -83,11 +88,10 @@ public class IntegerListImpl implements IntegerList {
     }
 
     @Override
-    public Integer remove(int index) {
+    public T remove(int index) {
         checkIndex(index);
 
-
-        Integer res = arr[index];
+        T res = (T) arr[index];
 
         if (index + 1 != size) {
             System.arraycopy(arr, index + 1, arr, index, size - index - 1);
@@ -99,16 +103,16 @@ public class IntegerListImpl implements IntegerList {
     }
 
     @Override
-    public boolean contains(Integer item) {
+    public boolean contains(T item) {
         checkItem(item);
-        BinarySearch binarySearch = new BinarySearch();
-        Integer[] arrCopy = toArray();
-        binarySearch.sort(arrCopy);
+        BinarySearch<T> binarySearch = new BinarySearch<>();
+        T[] arrCopy = (T[]) toArray();
+        binarySearch.sort(arrCopy, 0, arrCopy.length - 1);
         return binarySearch.binarySearch(arrCopy, item) != -1;
     }
 
     @Override
-    public int indexOf(Integer item) {
+    public int indexOf(T item) {
         checkItem(item);
         for (int i = 0; i < size; i++) {
             if (arr[i].equals(item)) {
@@ -119,7 +123,7 @@ public class IntegerListImpl implements IntegerList {
     }
 
     @Override
-    public int lastIndexOf(Integer item) {
+    public int lastIndexOf(T item) {
         checkItem(item);
         for (int i = size - 1; i >= 0; i--) {
             if (arr[i].equals(item)) {
@@ -130,13 +134,13 @@ public class IntegerListImpl implements IntegerList {
     }
 
     @Override
-    public Integer get(int index) {
+    public T get(int index) {
         checkIndex(index);
-        return arr[index];
+        return (T) arr[index];
     }
 
     @Override
-    public boolean equals(IntegerList otherList) {
+    public boolean equals(CustomList<T> otherList) {
         return Arrays.equals(toArray(), otherList.toArray());
     }
 
@@ -152,19 +156,12 @@ public class IntegerListImpl implements IntegerList {
 
     @Override
     public void clear() {
-        arr = new Integer[INITIAL_CAPACITY];
+        arr = new Object[INITIAL_CAPACITY];
         size = 0;
     }
 
     @Override
-    public Integer[] toArray() {
+    public Object[] toArray() {
         return Arrays.copyOf(arr, size);
-    }
-
-    @Override
-    public String toString() {
-        return "StringListImpl{" +
-                "arr=" + Arrays.toString(toArray()) +
-                '}';
     }
 }
